@@ -12,7 +12,7 @@ import BottomNav from './components/BottomNav';
 import VisionScanner from './components/VisionScanner';
 import { Message, Language, FavoriteItem, ViewType, TranslationScanResult } from './types';
 import { translateAudio } from './services/geminiService';
-import { Sparkles, Lightbulb, Info, ArrowRight, Camera } from 'lucide-react';
+import { Sparkles, Lightbulb, Info, AlertCircle, Camera } from 'lucide-react';
 
 const APP_TIPS = [
   { title: "Mode Vision", content: "Vous pouvez désormais traduire des panneaux ou des documents en prenant une photo." },
@@ -23,6 +23,7 @@ const APP_TIPS = [
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [sourceLang, setSourceLang] = useState<Language>(Language.FRENCH);
   const [targetLang, setTargetLang] = useState<Language>(Language.TIGRINYA);
   const [activeView, setActiveView] = useState<ViewType>(ViewType.CHAT);
@@ -56,11 +57,13 @@ const App: React.FC = () => {
 
   const handleRecordComplete = async (base64Audio: string) => {
     setIsProcessing(true);
+    setError(null);
     try {
       const result = await translateAudio(base64Audio, sourceLang, targetLang);
       addMessageFromResult(result);
-    } catch (error) {
-      console.error(error);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Impossible de traduire l'audio.");
     } finally {
       setIsProcessing(false);
     }
@@ -129,8 +132,18 @@ const App: React.FC = () => {
       default:
         return (
           <div className="pt-6 pb-[320px]">
+            {error && (
+              <div className="mx-6 mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
+                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-bold text-red-800">Erreur de service</p>
+                  <p className="text-[10px] text-red-600 leading-tight">{error}</p>
+                </div>
+              </div>
+            )}
+
             {messages.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-[40vh] text-center space-y-6 px-8 animate-in fade-in zoom-in-95">
+              <div className="flex flex-col items-center justify-center h-[35vh] text-center space-y-6 px-8 animate-in fade-in zoom-in-95">
                 <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center shadow-inner">
                   <Sparkles className="w-8 h-8 text-indigo-600" />
                 </div>
