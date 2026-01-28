@@ -1,0 +1,9 @@
+
+{
+  "name": "TigriPal AI",
+  "description": "Un traducteur vocal et visuel intelligent en temps réel entre le Français et le Tigrinya.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}

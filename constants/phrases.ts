@@ -1,0 +1,36 @@
+
+import { StaticPhrase } from "../types";
+
+// Adding English translations and phonetics to resolve Type errors where 'en' and 'enPhonetic' were missing in StaticPhrase.
+export const SURVIVAL_PHRASES: StaticPhrase[] = [
+  { id: '1', fr: 'Bonjour', ti: 'ሰላም', en: 'Hello', frPhonetic: 'Bon-jour', tiPhonetic: 'Selam', enPhonetic: 'He-loh', category: 'Salutations' },
+  { id: '2', fr: 'Comment allez-vous ?', ti: 'ከመይ ኣለኹም?', en: 'How are you?', frPhonetic: 'Ko-man ta-lé vou', tiPhonetic: 'Kemey alekum?', enPhonetic: 'How are yoo?', category: 'Salutations' },
+  { id: '3', fr: "Je m'appelle...", ti: 'ስመይ ... እዩ', en: 'My name is...', frPhonetic: 'Je ma-pèl', tiPhonetic: 'Semey ... eyu', enPhonetic: 'My naym iz...', category: 'Présentation' },
+  { id: '4', fr: 'Je suis nouveau ici', ti: 'ኣነ ኣብዚ ሓድሽ እየ', en: 'I am new here', frPhonetic: 'Je sui nou-vo i-si', tiPhonetic: "Ane ab'zi hadish eye", enPhonetic: 'I am nyoo heer', category: 'Présentation' },
+  { id: '5', fr: 'Où est le bureau ?', ti: 'ቤት ጽሕፈት ኣበይ ኣሎ?', en: 'Where is the office?', frPhonetic: 'Ou é le bu-ro', tiPhonetic: 'Bet tsihfet abey alo?', enPhonetic: 'Wair iz thuh of-is', category: 'Travail' },
+  { id: '6', fr: 'À quelle heure est la pause ?', ti: 'ዕረፍቲ ሰዓት ክንደይ እዩ?', en: 'At what time is the break?', frPhonetic: 'A kèl eur é la poz', tiPhonetic: "Erefti se'at kndey eyu?", enPhonetic: 'At wot tym iz thuh brayk', category: 'Travail' },
+  { id: '7', fr: "J'ai fini mon travail", ti: 'ስርሐይ ወዲአ', en: 'I have finished my work', frPhonetic: 'Jé fi-ni mon tra-vay', tiPhonetic: 'Sirhey wedie', enPhonetic: 'I hav fin-isht my wurk', category: 'Travail' },
+  { id: '8', fr: "C'est fini pour aujourd'hui", ti: 'ንሎሚ ተወዲኡ', en: 'It is finished for today', frPhonetic: 'Sé fi-ni pour o-jour-dui', tiPhonetic: "N'lomi tewediu", enPhonetic: 'It iz fin-isht for tuh-day', category: 'Travail' },
+  { id: '9', fr: 'À demain', ti: 'ንጽባሕ የራኽበና', en: 'See you tomorrow', frPhonetic: 'A de-min', tiPhonetic: "N'tsibah yerahibena", enPhonetic: 'See yoo tuh-mor-oh', category: 'Salutations' },
+  { id: '10', fr: 'Pouvez-vous répéter ?', ti: 'ክትደግምዎ ትኽእሉዶ?', en: 'Can you repeat?', frPhonetic: 'Pou-vé vou ré-pé-té', tiPhonetic: 'Ktdegmwo tkhuludo?', enPhonetic: 'Kan yoo ri-peet?', category: 'Communication' },
+  { id: '11', fr: 'Plus doucement s\'il vous plaît', ti: 'በጃኹም ብዝሐሸ ቀስ በሉ', en: 'Slower please', frPhonetic: 'Plu dou-se-man', tiPhonetic: 'Bejakhum bzihashe qes belu', enPhonetic: 'Sloh-er pleez', category: 'Communication' },
+  { id: '12', fr: 'Je comprends', ti: 'ይርድኣኒ እዩ', en: 'I understand', frPhonetic: 'Je kon-pran', tiPhonetic: "Yerd'ani eyu", enPhonetic: 'I un-der-stand', category: 'Communication' },
+  { id: '13', fr: 'Je ne comprends pas', ti: 'ኣይተረድኣንን', en: 'I do not understand', frPhonetic: 'Je ne kon-pran pa', tiPhonetic: "Aytered'anen", enPhonetic: 'I doo not un-der-stand', category: 'Communication' },
+  { id: '14', fr: 'Merci', ti: 'የቐንየለይ', en: 'Thank you', frPhonetic: 'Mèr-si', tiPhonetic: 'Yeqenyeley', enPhonetic: 'Thank yoo', category: 'Politesse' },
+  { id: '15', fr: 'De rien', ti: 'ገሌ ኣይኮነን', en: 'You are welcome', frPhonetic: 'De ri-in', tiPhonetic: 'Gele aykonen', enPhonetic: 'Yoo are wel-kum', category: 'Politesse' },
+  { id: '16', fr: 'S\'il vous plaît', ti: 'በጃኹም', en: 'Please', frPhonetic: 'Sil vou plé', tiPhonetic: 'Bejakhum', enPhonetic: 'Pleez', category: 'Politesse' },
+  { id: '17', fr: 'Pardon / Excusez-moi', ti: 'ይቕሬታ', en: 'Sorry / Excuse me', frPhonetic: 'Par-don', tiPhonetic: 'Yiqreta', enPhonetic: 'Sor-ee / Ex-kyooz mee', category: 'Politesse' },
+  { id: '18', fr: 'Où sont les toilettes ?', ti: 'ሽቓቕ ኣበይ ኣሎ?', en: 'Where are the toilets?', frPhonetic: 'Ou son lé toa-lèt', tiPhonetic: 'Shiqaq abey alo?', enPhonetic: 'Wair are thuh toy-lets', category: 'Besoins' },
+  { id: '19', fr: "J'ai besoin d'aide", ti: 'ሓገዝ የድልየኒ ኣሎ', en: 'I need help', frPhonetic: 'Jé be-zoin dèd', tiPhonetic: 'Hagez yedliyeni alo', enPhonetic: 'I need help', category: 'Urgence' },
+  { id: '20', fr: "C'est urgent", ti: 'ህጹጽ እዩ', en: 'It is urgent', frPhonetic: 'Sé ur-jan', tiPhonetic: 'Hitsuts eyu', enPhonetic: 'It iz ur-jent', category: 'Urgence' },
+  { id: '21', fr: 'Attention !', ti: 'ተጠንቀቕ!', en: 'Careful!', frPhonetic: 'A-tan-sion', tiPhonetic: 'Tetenqeq!', enPhonetic: 'Kair-ful!', category: 'Sécurité' },
+  { id: '22', fr: "C'est dangereux", ti: 'ሓደገኛ እዩ', en: 'It is dangerous', frPhonetic: 'Sé dan-je-reu', tiPhonetic: 'Hadigenya eyu', enPhonetic: 'It iz dayn-jer-us', category: 'Sécurité' },
+  { id: '23', fr: 'Où est mon équipement ?', ti: 'ናውተይ ኣበይ ኣሎ?', en: 'Where is my equipment?', frPhonetic: 'Ou é mon é-kip-man', tiPhonetic: 'Nawtey abey alo?', enPhonetic: 'Wair iz my ee-kwip-ment', category: 'Travail' },
+  { id: '24', fr: 'Puis-je utiliser ceci ?', ti: 'እዚ ክጥቀመሉ ይኽእልዶ?', en: 'Can I use this?', frPhonetic: 'Pui-je u-ti-li-zé se-si', tiPhonetic: 'Ezi ktqemelu yikhuludo?', enPhonetic: 'Kan I yooz this?', category: 'Travail' },
+  { id: '25', fr: "C'est cassé", ti: 'ተሰይሩ እዩ', en: 'It is broken', frPhonetic: 'Sé ka-sé', tiPhonetic: 'Teseyru eyu', enPhonetic: 'It iz bro-ken', category: 'Travail' },
+  { id: '26', fr: 'Ça marche', ti: 'ይሰርሕ እዩ', en: 'It works', frPhonetic: 'Sa marsh', tiPhonetic: 'Yiserah eyu', enPhonetic: 'It wurks', category: 'Travail' },
+  { id: '27', fr: 'Comment on fait ça ?', ti: 'እዚ ከመይ ጌርካ ይግበር?', en: 'How do we do this?', frPhonetic: 'Ko-man on fé sa', tiPhonetic: 'Ezi kemey gerka yigber?', enPhonetic: 'How doo wee doo this?', category: 'Travail' },
+  { id: '28', fr: 'Je suis fatigué', ti: 'ደኺመ ኣለኹ', en: 'I am tired', frPhonetic: 'Je sui fa-ti-gé', tiPhonetic: 'Dekhime alekhu', enPhonetic: 'I am ty-urd', category: 'Besoins' },
+  { id: '29', fr: 'Bonne journée', ti: 'ጽቡቕ መዓልቲ', en: 'Have a good day', frPhonetic: 'Bon jour-né', tiPhonetic: "Tsibuq me'alti", enPhonetic: 'Hav uh gud day', category: 'Salutations' },
+  { id: '30', fr: 'Bon courage', ti: 'ጽቡቕ ዕድል', en: 'Good luck', frPhonetic: 'Bon kou-raj', tiPhonetic: 'Tsibuq idil', enPhonetic: 'Gud luk', category: 'Politesse' },
+];
