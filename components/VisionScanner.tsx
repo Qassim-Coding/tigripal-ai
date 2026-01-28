@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Camera, Image as ImageIcon, X, Loader2, ArrowLeftRight, Check, Edit3, Save, RotateCcw } from 'lucide-react';
+import { Camera, Image as ImageIcon, X, Loader2, ArrowLeftRight, Check, Edit3, Save, RotateCcw, AlertCircle } from 'lucide-react';
 import { Language, TranslationScanResult } from '../types';
 import { translateImage } from '../services/geminiService';
 
@@ -14,6 +14,7 @@ const VisionScanner: React.FC<Props> = ({ onClose, onSaveResult }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [result, setResult] = useState<TranslationScanResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [sourceLang, setSourceLang] = useState(Language.FRENCH);
   const [targetLang, setTargetLang] = useState(Language.TIGRINYA);
   const [isEditing, setIsEditing] = useState(false);
@@ -23,6 +24,7 @@ const VisionScanner: React.FC<Props> = ({ onClose, onSaveResult }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const startCamera = async () => {
+    setError(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { facingMode: 'environment' } 
@@ -32,7 +34,7 @@ const VisionScanner: React.FC<Props> = ({ onClose, onSaveResult }) => {
         setIsCameraActive(true);
       }
     } catch (err) {
-      alert("Accès caméra refusé.");
+      setError("Accès caméra refusé. Vérifiez les réglages de votre navigateur.");
     }
   };
 
@@ -56,12 +58,15 @@ const VisionScanner: React.FC<Props> = ({ onClose, onSaveResult }) => {
 
   const processImage = async (base64: string) => {
     setIsProcessing(true);
+    setError(null);
     try {
       const res = await translateImage(base64, sourceLang, targetLang);
       setResult(res);
       setEditedText(res.original);
-    } catch (err) {
-      alert("Échec de l'analyse visuelle.");
+    } catch (err: any) {
+      setError(err.message || "Échec de l'analyse visuelle.");
+      setPreviewImage(null);
+      startCamera();
     } finally {
       setIsProcessing(false);
     }
@@ -99,6 +104,16 @@ const VisionScanner: React.FC<Props> = ({ onClose, onSaveResult }) => {
 
       {/* Main Content */}
       <div className="flex-1 relative overflow-hidden flex items-center justify-center bg-slate-900">
+        {error && (
+          <div className="absolute top-20 left-6 right-6 z-20 bg-red-500/90 text-white p-4 rounded-2xl flex items-start gap-3 animate-in fade-in slide-in-from-top">
+            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+            <div>
+              <p className="text-xs font-bold">Erreur</p>
+              <p className="text-[11px] leading-tight opacity-90">{error}</p>
+            </div>
+          </div>
+        )}
+
         {!previewImage ? (
           <>
             <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover" />
@@ -119,7 +134,7 @@ const VisionScanner: React.FC<Props> = ({ onClose, onSaveResult }) => {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center text-white p-8 text-center">
             <Loader2 className="w-12 h-12 animate-spin text-indigo-400 mb-4" />
             <h3 className="text-lg font-bold">Analyse multimodale...</h3>
-            <p className="text-sm text-white/60">Gemini extrait et traduit le texte détecté.</p>
+            <p className="text-sm text-white/60">Extraction du texte par Gemini Flash.</p>
           </div>
         )}
       </div>
