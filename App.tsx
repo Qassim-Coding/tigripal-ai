@@ -12,7 +12,7 @@ import BottomNav from './components/BottomNav';
 import VisionScanner from './components/VisionScanner';
 import { Message, Language, FavoriteItem, ViewType, TranslationScanResult } from './types';
 import { translateAudio } from './services/geminiService';
-import { Sparkles, Lightbulb, Info, AlertCircle, Camera } from 'lucide-react';
+import { Sparkles, Lightbulb, Info, AlertCircle, Camera, RefreshCcw } from 'lucide-react';
 
 const APP_TIPS = [
   { title: "Mode Vision", content: "Vous pouvez désormais traduire des panneaux ou des documents en prenant une photo." },
@@ -62,8 +62,7 @@ const App: React.FC = () => {
       const result = await translateAudio(base64Audio, sourceLang, targetLang);
       addMessageFromResult(result);
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Impossible de traduire l'audio.");
+      setError(err.message);
     } finally {
       setIsProcessing(false);
     }
@@ -77,9 +76,9 @@ const App: React.FC = () => {
     const newMessage: Message = {
       id: Math.random().toString(36).substring(7),
       originalText: result.original,
-      originalPhonetic: result.originalPhonetic,
+      originalPhonetic: result.originalPhonetic || "",
       translatedText: result.translated,
-      translatedPhonetic: result.translatedPhonetic,
+      translatedPhonetic: result.translatedPhonetic || "",
       sourceLang: sourceLang,
       targetLang: targetLang,
       timestamp: Date.now(),
@@ -133,11 +132,23 @@ const App: React.FC = () => {
         return (
           <div className="pt-6 pb-[320px]">
             {error && (
-              <div className="mx-6 mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
-                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-bold text-red-800">Erreur de service</p>
-                  <p className="text-[10px] text-red-600 leading-tight">{error}</p>
+              <div className="mx-6 mb-6 p-6 bg-white border-2 border-red-100 rounded-[32px] shadow-xl shadow-red-50/50 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center shrink-0">
+                    <AlertCircle className="w-6 h-6 text-red-500" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-black text-red-900 uppercase tracking-tight mb-2">Configuration requise</p>
+                    <div className="text-xs text-red-700/80 leading-relaxed whitespace-pre-wrap font-medium">
+                      {error}
+                    </div>
+                    <button 
+                      onClick={() => window.location.reload()} 
+                      className="mt-5 flex items-center gap-2 text-[10px] font-black uppercase text-white bg-red-500 hover:bg-red-600 px-5 py-2.5 rounded-full shadow-lg shadow-red-200 transition-all active:scale-95"
+                    >
+                      <RefreshCcw className="w-3 h-3" /> Recharger l'application
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
@@ -167,7 +178,6 @@ const App: React.FC = () => {
             )}
             
             <div className="px-6 space-y-4">
-              {/* Scan Tool Card */}
               <button 
                 onClick={() => setActiveView(ViewType.PHOTO)}
                 className="w-full bg-slate-900 text-white p-6 rounded-[32px] flex items-center gap-4 shadow-xl active:scale-95 transition-all group"
@@ -176,9 +186,8 @@ const App: React.FC = () => {
                   <Camera className="w-6 h-6" />
                 </div>
                 <div className="text-left flex-1">
-                  <h3 className="font-bold">Traduire une image</h3>
-                  <p className="text-[11px] text-white/50 leading-tight">Scanner des documents ou des panneaux.</p>
-                  <p className="text-[10px] text-amber-400 font-medium mt-1">💡 Assurez une luminosité suffisante pour un scan précis.</p>
+                  <h3 className="font-bold text-sm">Traduire une image</h3>
+                  <p className="text-[10px] text-white/50 leading-tight">Panneaux, documents, menus...</p>
                 </div>
               </button>
 
