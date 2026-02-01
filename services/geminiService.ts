@@ -13,19 +13,22 @@ function cleanJsonResponse(text: string): string {
 }
 
 /**
- * Récupère la clé API de manière robuste sur Vercel/Navigateur.
- * Note : Vercel exige souvent le préfixe NEXT_PUBLIC_ pour exposer une variable au client.
+ * Récupère la clé API de manière robuste pour Vite/Vercel.
+ * Note : Vite nécessite le préfixe VITE_ pour exposer une variable au client.
  */
 function getApiKey(): string {
-  // On vérifie process.env.API_KEY (demandé) ET les variantes de build classiques
-  const key = process.env.API_KEY || (process.env as any).NEXT_PUBLIC_API_KEY || (process.env as any).VITE_API_KEY;
+  // Vite utilise import.meta.env pour les variables d'environnement côté client
+  // Les variables doivent commencer par VITE_ pour être exposées
+  const key = import.meta.env.VITE_GEMINI_API_KEY;
   
   if (!key) {
     throw new Error(
       "CLÉ API INTROUVABLE SUR VERCEL :\n\n" +
-      "1. Renommez votre variable 'API_KEY' en 'NEXT_PUBLIC_API_KEY' dans les réglages Vercel.\n" +
-      "2. Allez dans l'onglet 'Deployments' et cliquez sur 'Redeploy'.\n\n" +
-      "C'est indispensable pour que le navigateur de votre téléphone puisse lire la clé."
+      "1. Dans les réglages Vercel, ajoutez une variable d'environnement nommée 'VITE_GEMINI_API_KEY'.\n" +
+      "2. Collez votre clé API Gemini dans la valeur.\n" +
+      "3. Allez dans l'onglet 'Deployments' et cliquez sur 'Redeploy'.\n\n" +
+      "C'est indispensable pour que le navigateur puisse lire la clé.\n" +
+      "Note : Le préfixe VITE_ est obligatoire pour que Vite expose la variable au client."
     );
   }
   return key;
