@@ -13,23 +13,30 @@ function cleanJsonResponse(text: string): string {
 }
 
 /**
- * Initialisation directe du client avec la clé d'environnement.
- * Le bundler remplacera process.env.API_KEY par la valeur réelle.
+ * Récupère la clé API de manière robuste sur Vercel/Navigateur.
+ * Note : Vercel exige souvent le préfixe NEXT_PUBLIC_ pour exposer une variable au client.
  */
-const getAiClient = () => {
-  const apiKey = process.env.API_KEY;
-  if (!apiKey) {
-    throw new Error("La clé API Gemini est introuvable. Vérifiez vos variables d'environnement (API_KEY).");
+function getApiKey(): string {
+  // On vérifie process.env.API_KEY (demandé) ET les variantes de build classiques
+  const key = process.env.API_KEY || (process.env as any).NEXT_PUBLIC_API_KEY || (process.env as any).VITE_API_KEY;
+  
+  if (!key) {
+    throw new Error(
+      "CLÉ API INTROUVABLE SUR VERCEL :\n\n" +
+      "1. Renommez votre variable 'API_KEY' en 'NEXT_PUBLIC_API_KEY' dans les réglages Vercel.\n" +
+      "2. Allez dans l'onglet 'Deployments' et cliquez sur 'Redeploy'.\n\n" +
+      "C'est indispensable pour que le navigateur de votre téléphone puisse lire la clé."
+    );
   }
-  return new GoogleGenAI({ apiKey });
-};
+  return key;
+}
 
 export async function translateAudio(
   base64Audio: string,
   sourceLang: Language,
   targetLang: Language
 ): Promise<TranslationResult> {
-  const ai = getAiClient();
+  const ai = new GoogleGenAI({ apiKey: getApiKey() });
   
   const prompt = `Translate this audio from ${sourceLang} to ${targetLang}. 
   Include all versions for fr, ti, en in an 'allVersions' object.`;
@@ -84,7 +91,7 @@ export async function translateImage(
   sourceLang: Language,
   targetLang: Language
 ): Promise<TranslationScanResult> {
-  const ai = getAiClient();
+  const ai = new GoogleGenAI({ apiKey: getApiKey() });
 
   const prompt = `OCR and translate text in this image from ${sourceLang} to ${targetLang}. 
   Provide phonetic transcriptions and include all versions for fr, ti, en in an 'allVersions' object.`;
@@ -137,7 +144,7 @@ export async function translateImage(
 
 export async function generateTTS(text: string, isTigrinya: boolean): Promise<string> {
   try {
-    const ai = getAiClient();
+    const ai = new GoogleGenAI({ apiKey: getApiKey() });
     const response = await ai.models.generateContent({
       model: TTS_MODEL,
       contents: [{ parts: [{ text: isTigrinya ? `Say this in Tigrinya: ${text}` : text }] }],
